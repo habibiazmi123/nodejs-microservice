@@ -1,7 +1,14 @@
-import { NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from '@cumidev/common';
+import {
+  NotAuthorizedError,
+  NotFoundError,
+  requireAuth,
+  validateRequest,
+} from '@cumidev/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { TicketModel } from '../models/tickets';
+import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -29,8 +36,15 @@ router.put(
     ticket.set({
       title: req.body.title,
       price: req.body.price,
-    })
+    });
     await ticket.save();
+
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     res.send(ticket);
   }
