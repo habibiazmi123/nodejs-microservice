@@ -10,14 +10,17 @@
   "scripts": {
     "clean": "del ./build/*",
     "build": "npm run clean && tsc",
-    "pub": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish"
+    "pub": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish",
+    "format": "prettier --write .",
+    "check-format": "prettier --check ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "del-cli": "^5.1.0",
-    "typescript": "^5.6.2"
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@types/cookie-session": "^2.0.49",

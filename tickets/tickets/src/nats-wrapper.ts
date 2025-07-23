@@ -5,7 +5,7 @@ class NatsWrapper {
 
   get client() {
     if (!this._client) {
-        throw new Error('Cannot access NATS client before connecting');
+      throw new Error('Cannot access NATS client before connecting');
     }
 
     return this._client;
@@ -15,8 +15,8 @@ class NatsWrapper {
     this._client = nats.connect(clusterId, clientId, { url });
 
     this._client.on('close', () => {
-        console.log('NATS connection closed');
-        process.exit();
+      console.log('NATS connection closed');
+      process.exit();
     });
     process.on('SIGINT', () => this.client.close());
     process.on('SIGTERM', () => this.client.close());

@@ -1,43 +1,48 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema } from 'mongoose';
 
 interface ITicketBase {
-    title: string;
-    price: number;
-    userId: string;
+  title: string;
+  price: number;
+  userId: string;
 }
 
 export interface ITicketInput extends ITicketBase {}
 
 export interface ITicketDocument extends ITicketBase, Document {
-    createdAt: string;
-    updatedAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-const ticketSchema: Schema<ITicketDocument> = new Schema<ITicketDocument>({
+const ticketSchema: Schema<ITicketDocument> = new Schema<ITicketDocument>(
+  {
     title: {
-        type: String,
-        required: true,
-        lowercase: true,
-        trim: true
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
     },
     price: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     userId: {
-        type: String,
-        required: true
-    }
-}, 
-{
+      type: String,
+      required: true,
+    },
+  },
+  {
     timestamps: true,
     toJSON: {
-        transform(doc, ret) {
-            ret.id = ret._id;
-            delete ret._id;
-            delete ret.__v;
-        }
-    }
-});
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+  }
+);
 
-export const TicketModel = mongoose.model<ITicketDocument>('Ticket', ticketSchema);
+export const TicketModel = mongoose.model<ITicketDocument>(
+  'Ticket',
+  ticketSchema
+);

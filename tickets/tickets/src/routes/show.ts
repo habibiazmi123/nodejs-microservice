@@ -5,13 +5,13 @@ import { NotFoundError } from '@cumidev/common';
 const router = express.Router();
 
 router.get('/api/tickets/:id', async (req: Request, res: Response) => {
-    const ticket = await TicketModel.findById(req.params.id);
+  const ticket = await TicketModel.findById(req.params.id);
 
-    if (!ticket) {
-        throw new NotFoundError();
-    }
+  if (!ticket) {
+    throw new NotFoundError();
+  }
 
-    res.send(ticket);
+  res.send(ticket);
 });
 
 export { router as showTicketRouter };

@@ -3,7 +3,7 @@ import { currentUser } from '@cumidev/common';
 
 const router = express.Router();
 
-router.post('/api/users/signout',currentUser, (req, res) => {
+router.post('/api/users/signout', currentUser, (req, res) => {
   req.session = null;
   res.send({});
 });

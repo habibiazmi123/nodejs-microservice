@@ -35,7 +35,7 @@ const ticketSchema = new mongoose.Schema(
         delete ret._id;
       },
     },
-  }
+  },
 );
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {

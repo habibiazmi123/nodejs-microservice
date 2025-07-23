@@ -46,7 +46,7 @@ router.put(
     });
 
     res.send(ticket);
-  }
+  },
 );
 
 export { router as updateTicketRouter };

@@ -1,9 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import {
-  BadRequestError,
-  validateRequest,
-} from '@cumidev/common';
+import { BadRequestError, validateRequest } from '@cumidev/common';
 import jwt from 'jsonwebtoken';
 
 import { UserModel } from '../models/user';

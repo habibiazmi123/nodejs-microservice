@@ -15,5 +15,5 @@ it('clears the session cookie on signout', async () => {
     .send({})
     .expect(200);
 
-    expect(response.get('Set-Cookie')).toBeDefined();
+  expect(response.get('Set-Cookie')).toBeDefined();
 });

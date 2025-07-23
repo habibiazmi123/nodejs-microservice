@@ -11,13 +11,11 @@ const router = express.Router();
 router.post(
   '/api/users/signin',
   [
-    body('email')
-      .isEmail()
-      .withMessage('Email must be valid'),
+    body('email').isEmail().withMessage('Email must be valid'),
     body('password')
       .trim()
       .notEmpty()
-      .withMessage('You must supply a password')
+      .withMessage('You must supply a password'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
@@ -30,7 +28,7 @@ router.post(
 
     const passwordsMatch = await Password.compare(
       existingUser.password,
-      password
+      password,
     );
     if (!passwordsMatch) {
       throw new BadRequestError('Invalid Credentials');
@@ -40,18 +38,18 @@ router.post(
     const userJwt = jwt.sign(
       {
         id: existingUser.id,
-        email: existingUser.email
+        email: existingUser.email,
       },
-      process.env.JWT_KEY!
+      process.env.JWT_KEY!,
     );
 
     // Store it on session object
     req.session = {
-      jwt: userJwt
+      jwt: userJwt,
     };
 
     res.status(200).send(existingUser);
-  }
+  },
 );
 
 export { router as signinRouter };

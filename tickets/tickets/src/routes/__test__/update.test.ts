@@ -95,12 +95,12 @@ it('updates the ticket provided valid inputs', async () => {
     })
     .expect(200);
 
-    const ticketResponse = await request(app)
-        .get(`/api/tickets/${response.body.id}`)
-        .send();
+  const ticketResponse = await request(app)
+    .get(`/api/tickets/${response.body.id}`)
+    .send();
 
-    expect(ticketResponse.body.title).toEqual('update');
-    expect(ticketResponse.body.price).toEqual(40);
+  expect(ticketResponse.body.title).toEqual('update');
+  expect(ticketResponse.body.price).toEqual(40);
 });
 
 it('published an event', async () => {
