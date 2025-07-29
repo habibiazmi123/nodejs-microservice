@@ -1,3 +1,9 @@
-export default () => {
-  return <h1>Banana</h1>;
+const BananaPage = () => {
+    return (
+        <div>
+            <h1>Banana 2</h1>
+        </div>
+    );
 };
+
+export default BananaPage;
