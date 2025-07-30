@@ -1,7 +1,7 @@
-import { requireAuth, validateRequest } from '@cumidev/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { TicketModel } from '../models/tickets';
+import { requireAuth, validateRequest } from '@cumidev/common';
+import { Ticket } from '../models/ticket';
 import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
@@ -19,14 +19,12 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const { title, price } = req.body;
-
-    const ticket = new TicketModel({
+    const ticket = Ticket.build({
       title,
       price,
-      userId: req.currentUser?.id,
+      userId: req.currentUser!.id,
     });
     await ticket.save();
-
     await new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,

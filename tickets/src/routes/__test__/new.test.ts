@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { TicketModel } from '../../models/tickets';
+import { Ticket } from '../../models/ticket';
 import { natsWrapper } from '../../nats-wrapper';
 
 it('has a route handler listening to /api/tickets for post requests', async () => {
@@ -46,8 +46,8 @@ it('returns an error if an invalid price is provided', async () => {
     .post('/api/tickets')
     .set('Cookie', global.signin())
     .send({
-      title: 'testing',
-      price: -90,
+      title: 'asldkjf',
+      price: -10,
     })
     .expect(400);
 
@@ -55,41 +55,41 @@ it('returns an error if an invalid price is provided', async () => {
     .post('/api/tickets')
     .set('Cookie', global.signin())
     .send({
-      title: 'testing',
+      title: 'laskdfj',
     })
     .expect(400);
 });
 
 it('creates a ticket with valid inputs', async () => {
-  let tickets = await TicketModel.find({});
+  let tickets = await Ticket.find({});
   expect(tickets.length).toEqual(0);
 
-  const title = 'testing';
+  const title = 'asldkfj';
 
   await request(app)
     .post('/api/tickets')
     .set('Cookie', global.signin())
     .send({
       title,
-      price: 10,
+      price: 20,
     })
     .expect(201);
 
-  tickets = await TicketModel.find({});
+  tickets = await Ticket.find({});
   expect(tickets.length).toEqual(1);
-  expect(tickets[0].price).toEqual(10);
+  expect(tickets[0].price).toEqual(20);
   expect(tickets[0].title).toEqual(title);
 });
 
-it('published an event', async () => {
-  const title = 'testing';
+it('publishes an event', async () => {
+  const title = 'asldkfj';
 
   await request(app)
     .post('/api/tickets')
     .set('Cookie', global.signin())
     .send({
       title,
-      price: 10,
+      price: 20,
     })
     .expect(201);
 
