@@ -1,4 +1,8 @@
-import { ExpirationCompleteEvent, OrderStatus, TicketCreatedEvent } from '@cumidev/common';
+import {
+    ExpirationCompleteEvent,
+    OrderStatus,
+    TicketCreatedEvent,
+} from '@cumidev/common';
 import { natsWrapper } from '../../../nats-wrapper';
 import mongoose from 'mongoose';
 import { Message } from 'node-nats-streaming';
@@ -13,21 +17,21 @@ const setup = async () => {
     const ticket = Ticket.build({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: 'concert',
-        price: 30
-    })
+        price: 30,
+    });
     await ticket.save();
 
     const order = Order.build({
         status: OrderStatus.Created,
         userId: 'asdkdfj',
         expiresAt: new Date(),
-        ticket
-    })
+        ticket,
+    });
     await order.save();
 
     // create a fake data event
     const data: ExpirationCompleteEvent['data'] = {
-        orderId: order.id
+        orderId: order.id,
     };
 
     // create a fake message object
@@ -41,14 +45,14 @@ const setup = async () => {
 
 it('updates the order status to cancelled', async () => {
     const { listener, order, data, msg } = await setup();
-    
+
     // call the onMessage function with the data object + message object
     await listener.onMessage(data, msg);
 
-    const updateOrder = await Order.findById(order.id)
+    const updateOrder = await Order.findById(order.id);
 
     expect(updateOrder!.status).toEqual(OrderStatus.Cancelled);
-})
+});
 
 it('emit an OrderCancelled event', async () => {
     const { listener, order, data, msg } = await setup();
@@ -57,15 +61,17 @@ it('emit an OrderCancelled event', async () => {
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
 
-    const eventData = JSON.parse((natsWrapper.client.publish as jest.Mock).mock.calls[0][1]);
+    const eventData = JSON.parse(
+        (natsWrapper.client.publish as jest.Mock).mock.calls[0][1],
+    );
 
     expect(eventData.id).toEqual(order.id);
-})
+});
 
 it('ack the message', async () => {
     const { listener, data, msg } = await setup();
 
-    await listener.onMessage(data, msg)
+    await listener.onMessage(data, msg);
 
-    expect(msg.ack).toHaveBeenCalled()
-})
+    expect(msg.ack).toHaveBeenCalled();
+});
