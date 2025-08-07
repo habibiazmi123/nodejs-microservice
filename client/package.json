@@ -16,8 +16,10 @@
         "axios": "^1.10.0",
         "bootstrap": "^5.3.6",
         "next": "^15.3.3",
+        "prop-types": "^15.8.1",
         "react": "^19.1.0",
-        "react-dom": "^19.1.0"
+        "react-dom": "^19.1.0",
+        "react-stripe-checkout": "^2.6.3"
     },
     "devDependencies": {
         "eslint-config-prettier": "^10.1.8",
