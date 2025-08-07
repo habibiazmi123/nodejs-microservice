@@ -5,8 +5,8 @@ export default {
             watchOptions: {
                 ...config.watchOptions,
                 poll: 300,
-            }
-        }
+            },
+        };
     },
-    allowedDevOrigins: ['ticketing.dev']
+    allowedDevOrigins: ['ticketing.dev'],
 };
